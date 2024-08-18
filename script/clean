@@ -1,0 +1,1 @@
+find -executable -type f -not -path "./script/.venv/*" -not -path "./dtl/*" -delete
