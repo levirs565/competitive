@@ -2,3 +2,4 @@ ac-library
 .cph
 script/.venv
 dtl
+*.exe
