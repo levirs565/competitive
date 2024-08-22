@@ -22,20 +22,26 @@ void solution() {
   int N;
   cin >> N;
 
-  vector<i64> A(N);
-  vector<i64> prefixXor;
-  prefixXor.push_back(0);
-
-  for (auto &a : A) {
-    cin >> a;
-    prefixXor.push_back(prefixXor.back() ^ a);
-  }
+  vector<int> A(N);
+  vector<int> prefixXor;
 
   i64 result = 0;
-  for (int i = 1; i <= N - 1; i++) {
-    for (int j = i + 1; j <= N; j++) {
-      result += prefixXor[j] ^ prefixXor[i - 1];
+  for (auto &a : A) {
+    cin >> a;
+    prefixXor.push_back((prefixXor.empty() ? 0 : prefixXor.back()) ^ a);
+    result -= a;
+  }
+
+  for (int i = 0; i <= 30; i++) {
+    int oneCount = 0;
+
+    for (auto p : prefixXor) {
+      if (p & (1 << i)) {
+        oneCount++;
+      }
     }
+
+    result += (i64) oneCount * (N - oneCount + 1) * (1 << i);
   }
 
   cout << result << endl;
