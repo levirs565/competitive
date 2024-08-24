@@ -3,3 +3,4 @@ ac-library
 script/.venv
 dtl
 *.exe
+*.bin

@@ -10,50 +10,47 @@
 #include <ranges>
 #include <set>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 using i64 = int64_t;
 
-void solution() {
+constexpr int logK = 20;
+
+void solution()
+{
   int N, Q;
   cin >> N >> Q;
 
-  vector<vector<int>> E(N);
-  for (int u = 1; u < N; u++) {
-    int v;
-    cin >> v;
-    v--;
-
-    E[v].push_back(u);
+  vector<vector<int>> P(N, vector<int>(logK, -1));
+  for (int u = 1; u < N; u++)
+  {
+    cin >> P[u][0];
+    P[u][0]--;
   }
 
-  vector<int> P(N), D(N);
-  auto dfs = [&](auto self, int u, int p, int d) -> void {
-    P[u] = p;
-    D[u] = d;
-    for (auto v : E[u]) {
-      self(self, v, u, d + 1);
+  for (int i = 1; i < logK; i++)
+  {
+    for (int u = 0; u < N; u++)
+    {
+      if (P[u][i - 1] != -1)
+        P[u][i] = P[P[u][i - 1]][i - 1];
     }
-  };
+  }
 
-  dfs(dfs, 0, -1, 0);
-
-  while (Q--) {
+  while (Q--)
+  {
     int x, k;
     cin >> x >> k;
     x--;
 
     int curr = x;
 
-    if (D[curr] < k) {
-      cout << -1 << endl;
-      continue;
-    }
-
-    while (curr != -1 && k > 0) {
-      curr = P[curr];
-      k--;
+    for (int i = 0; i < logK; i++) {
+      if (k & (1 << i) && curr != -1) {
+        curr = P[curr][i];
+      }
     }
 
     if (curr != -1)
@@ -63,7 +60,8 @@ void solution() {
   }
 }
 
-int main() {
+int main()
+{
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   cout.tie(0);
