@@ -18,13 +18,15 @@ using namespace std;
 
 using i64 = int64_t;
 
-struct Node {
+struct Node
+{
   Node *prev = nullptr;
   Node *next = nullptr;
   int value;
 };
 
-void solution() {
+void solution()
+{
   int N, K;
   cin >> N >> K;
 
@@ -34,7 +36,8 @@ void solution() {
   map<int, Node *> nodes;
   int nodeCount = N;
 
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < N; i++)
+  {
     int a;
     cin >> a;
 
@@ -44,7 +47,8 @@ void solution() {
 
     if (head == nullptr)
       head = node;
-    if (tail != nullptr) {
+    if (tail != nullptr)
+    {
       tail->next = node;
       node->prev = tail;
     }
@@ -52,12 +56,14 @@ void solution() {
     tail = node;
   }
 
-  for (int i = 0; i < K; i++) {
+  for (int i = 0; i < K; i++)
+  {
     char t;
     int a;
     cin >> t >> a;
 
-    if (t == 'A') {
+    if (t == 'A')
+    {
       Node *node = new Node();
       node->value = a;
       nodes[a] = node;
@@ -67,24 +73,32 @@ void solution() {
 
       head = node;
       nodeCount++;
-    } else {
+    }
+    else
+    {
       Node *node = nodes.at(a);
 
-      Node *newTail = node->prev;
-      newTail->next = nullptr;
-      node->prev = nullptr;
+      if (node->prev != nullptr)
+      {
+        Node *newTail = node->prev;
+        newTail->next = nullptr;
+        node->prev = nullptr;
 
-      tail->next = head;
-      head->prev = tail;
+        tail->next = head;
+        head->prev = tail;
 
-      head = node;
-      tail = newTail;
+        head = node;
+        tail = newTail;
+      } else {
+        
+      }
     }
   }
 
   cout << nodeCount << endl;
   Node *current = head;
-  while (current != nullptr) {
+  while (current != nullptr)
+  {
     cout << current->value << " ";
     current = current->next;
   }
@@ -92,7 +106,8 @@ void solution() {
   cout << endl;
 }
 
-int main() {
+int main()
+{
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   cout.tie(0);
