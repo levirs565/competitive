@@ -18,58 +18,49 @@ using namespace std;
 
 using i64 = int64_t;
 
-void solution() {
+void solution()
+{
   int N, Q;
   cin >> N >> Q;
 
   vector<int> A(N);
+  i64 sum = 0;
   for (auto &a : A)
+  {
     cin >> a;
+    sum += a;
+  }
 
-  while (Q--) {
+  sort(A.begin(), A.end(), greater<>());
+
+  vector<i64> diskon(N + 1, -1);
+
+  while (Q--)
+  {
     int x;
     cin >> x;
 
-    cout << "Start " << x << endl;
-    sort(A.begin(), A.end());
-    i64 res = LONG_LONG_MAX;
-    vector<int> B;
-
-    do {
-      priority_queue<int, vector<int>, greater<int>> q;
-      i64 total = 0;
-      for (auto a : A) {
-        q.push(a);
-
-        if (q.size() == x) {
-          total += q.top() - q.top() / 2;
-          q.pop();
-
-          while (!q.empty()) {
-            total += q.top();
-            q.pop();
-          }
+    if (x <= N)
+    {
+      if (diskon[x] == -1)
+      {
+        diskon[x] = 0;
+        for (int i = x; i <= N; i += x)
+        {
+          diskon[x] += A[i - 1] / 2;
         }
       }
-      while (!q.empty()) {
-        total += q.top();
-        q.pop();
-      }
-
-      if (total <= res) {
-        B = A;
-        res = total;
-      }
-    } while (next_permutation(A.begin(), A.end()));
-
-    cout << x << " " << res << endl;
-    for (auto &b : B)
-      cout << b << " ";
-    cout << endl;
+      cout << sum - diskon[x] << endl;
+    }
+    else
+    {
+      cout << sum << endl;
+    }
   }
 }
 
-int main() {
+int main()
+{
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   cout.tie(0);
