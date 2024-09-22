@@ -48,7 +48,6 @@ void solution() {
 
   cout << count << " ";
 
-  bool zero = count == 0;
   for (int K = 1; K < N; K++) {
     if (count != 0) {
       vector<i64> factorDiff(N + 1, 0);
@@ -69,7 +68,6 @@ void solution() {
     }
 
     cout << count << " ";
-    zero = count == 0;
   }
 }
 
